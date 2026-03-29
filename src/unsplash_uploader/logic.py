@@ -77,7 +77,6 @@ def upload_to_unsplash(
     # This implementation assumes the bearer token is already obtained or access key is sufficient for dev.
     
     url = "https://api.unsplash.com/photos"
-    files = {"file": open(file_path, "rb")}
     data = {
         "description": description,
     }
@@ -85,10 +84,12 @@ def upload_to_unsplash(
         data["tags"] = tags
 
     try:
-        response = requests.post(url, headers=headers, files=files, data=data)
+        with open(file_path, "rb") as f:
+            files = {"file": f}
+            response = requests.post(url, headers=headers, files=files, data=data)
         response.raise_for_status()
         result = response.json()
-        
+
         photo_url = result.get("links", {}).get("html")
         console.print(f"[green]Successfully uploaded {file_path.name}![/green]")
         console.print(f"URL: {photo_url}")
@@ -96,7 +97,7 @@ def upload_to_unsplash(
     except Exception as e:
         console.print(f"[red]Failed to upload {file_path.name}: {e}[/red]")
         if hasattr(e, "response") and e.response is not None:
-             console.print(f"[dim]{e.response.text}[/dim]")
+            console.print(f"[dim]{e.response.text}[/dim]")
         return False
 
 @app.command()
