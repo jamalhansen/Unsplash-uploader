@@ -1,7 +1,17 @@
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from unsplash_uploader.logic import upload_to_unsplash
+from unsplash_uploader.logic import upload_to_unsplash, UnsplashError, UploadError
+
+
+class TestTypedErrors:
+    def test_error_hierarchy(self):
+        assert issubclass(UploadError, UnsplashError)
+
+    def test_upload_error_message(self):
+        err = UploadError("connection refused")
+        assert "connection refused" in str(err)
+
 
 def create_test_file(tmp_path: Path):
     file_path = tmp_path / "photo.jpg"

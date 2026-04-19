@@ -15,6 +15,14 @@ from local_first_common.cli import (
 from local_first_common.tracking import register_tool
 
 _TOOL = register_tool("unsplash-uploader")
+
+
+class UnsplashError(Exception):
+    """Base typed error for unsplash-uploader."""
+
+
+class UploadError(UnsplashError):
+    """Raised when a photo upload to Unsplash fails."""
 console = Console()
 app = typer.Typer(help="Uploads photos to Unsplash via the API.")
 
@@ -94,6 +102,9 @@ def upload_to_unsplash(
         console.print(f"[green]Successfully uploaded {file_path.name}![/green]")
         console.print(f"URL: {photo_url}")
         return True
+    except UploadError as e:
+        console.print(f"[red]Failed to upload {file_path.name}: {e}[/red]")
+        return False
     except Exception as e:
         console.print(f"[red]Failed to upload {file_path.name}: {e}[/red]")
         if hasattr(e, "response") and e.response is not None:
