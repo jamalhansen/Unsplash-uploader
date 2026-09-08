@@ -1,7 +1,7 @@
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from unsplash_uploader.logic import upload_to_unsplash, UnsplashError, UploadError
+from unsplash_uploader.core import upload_to_unsplash, UnsplashError, UploadError
 
 
 class TestTypedErrors:
@@ -19,8 +19,8 @@ def create_test_file(tmp_path: Path):
     return file_path
 
 
-@patch("unsplash_uploader.logic.load_config")
-@patch("unsplash_uploader.logic.requests.post")
+@patch("unsplash_uploader.core.load_config")
+@patch("unsplash_uploader.core.requests.post")
 def test_upload_to_unsplash_success(mock_post, mock_load_config, tmp_path):
     file_path = create_test_file(tmp_path)
 
@@ -45,7 +45,7 @@ def test_upload_to_unsplash_success(mock_post, mock_load_config, tmp_path):
     assert kwargs["data"]["tags"] == "nature,sun"
 
 
-@patch("unsplash_uploader.logic.load_config")
+@patch("unsplash_uploader.core.load_config")
 def test_upload_to_unsplash_dry_run(mock_load_config, tmp_path):
     file_path = create_test_file(tmp_path)
     mock_load_config.return_value = {"access_key": "fake_key"}
@@ -54,7 +54,7 @@ def test_upload_to_unsplash_dry_run(mock_load_config, tmp_path):
     assert result is True
 
 
-@patch("unsplash_uploader.logic.load_config")
+@patch("unsplash_uploader.core.load_config")
 def test_upload_to_unsplash_no_auth(mock_load_config, tmp_path):
     file_path = create_test_file(tmp_path)
     mock_load_config.return_value = {}

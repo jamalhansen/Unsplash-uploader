@@ -13,7 +13,7 @@ dependencies = [
 ]
 
 [project.scripts]
-upload-unsplash = "unsplash_uploader.logic:app"
+upload-unsplash = "unsplash_uploader.cli:app"
 
 [build-system]
 requires = ["hatchling"]
