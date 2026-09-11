@@ -1,15 +1,15 @@
 from pathlib import Path
-from typing import Annotated, Optional
+from typing import Annotated
 
 import typer
-from rich.console import Console
-from rich.panel import Panel
-
 from local_first_common.cli import (
     dry_run_option,
     resolve_dry_run,
 )
 from local_first_common.tracking import register_tool
+from rich.console import Console
+from rich.panel import Panel
+
 from .core import (
     upload_to_unsplash,
 )
@@ -27,7 +27,7 @@ def upload(
         str, typer.Option("--description", "-d", help="Photo description")
     ],
     tags: Annotated[
-        Optional[str], typer.Option("--tags", "-t", help="Comma-separated tags")
+        str | None, typer.Option("--tags", "-t", help="Comma-separated tags")
     ] = None,
     dry_run: Annotated[bool, dry_run_option()] = False,
 ):

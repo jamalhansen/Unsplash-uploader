@@ -1,7 +1,7 @@
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from unsplash_uploader.core import upload_to_unsplash, UnsplashError, UploadError
+from unsplash_uploader.core import UnsplashError, UploadError, upload_to_unsplash
 
 
 class TestTypedErrors:
@@ -39,7 +39,7 @@ def test_upload_to_unsplash_success(mock_post, mock_load_config, tmp_path):
 
     assert result is True
     mock_post.assert_called_once()
-    args, kwargs = mock_post.call_args
+    _args, kwargs = mock_post.call_args
     assert kwargs["headers"]["Authorization"] == "Client-ID fake_key"
     assert kwargs["data"]["description"] == "A nice photo"
     assert kwargs["data"]["tags"] == "nature,sun"

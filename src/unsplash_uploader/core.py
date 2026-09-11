@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-from typing import Optional
 
 import requests
 import toml
@@ -56,7 +55,7 @@ def get_auth_headers(config: dict) -> dict:
 def upload_to_unsplash(
     file_path: Path,
     description: str,
-    tags: Optional[str] = None,
+    tags: str | None = None,
     dry_run: bool = False,
 ) -> bool:
     """Upload a single photo to Unsplash."""
@@ -99,7 +98,7 @@ def upload_to_unsplash(
     except UploadError as e:
         console.print(f"[red]Failed to upload {file_path.name}: {e}[/red]")
         return False
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - any network/API failure during upload should report and continue, not crash
         console.print(f"[red]Failed to upload {file_path.name}: {e}[/red]")
         if hasattr(e, "response") and e.response is not None:
             console.print(f"[dim]{e.response.text}[/dim]")
