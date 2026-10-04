@@ -87,7 +87,8 @@ def upload_to_unsplash(
     try:
         with open(file_path, "rb") as f:
             files = {"file": f}
-            response = requests.post(url, headers=headers, files=files, data=data)
+            # (connect, read) seconds: without a timeout a stalled upload hangs forever.
+            response = requests.post(url, headers=headers, files=files, data=data, timeout=(10, 120))
         response.raise_for_status()
         result = response.json()
 
