@@ -30,9 +30,7 @@ def test_upload_to_unsplash_success(mock_post, mock_load_config, tmp_path):
     # Mock response
     mock_response = MagicMock()
     mock_response.status_code = 201
-    mock_response.json.return_value = {
-        "links": {"html": "https://unsplash.com/photos/123"}
-    }
+    mock_response.json.return_value = {"links": {"html": "https://unsplash.com/photos/123"}}
     mock_post.return_value = mock_response
 
     result = upload_to_unsplash(file_path, "A nice photo", "nature,sun")

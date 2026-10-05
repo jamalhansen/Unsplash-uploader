@@ -23,12 +23,8 @@ app = typer.Typer(help="Uploads photos to Unsplash via the API.")
 @app.command()
 def upload(
     file: Annotated[Path, typer.Option("--file", "-f", help="Photo file to upload")],
-    description: Annotated[
-        str, typer.Option("--description", "-d", help="Photo description")
-    ],
-    tags: Annotated[
-        str | None, typer.Option("--tags", "-t", help="Comma-separated tags")
-    ] = None,
+    description: Annotated[str, typer.Option("--description", "-d", help="Photo description")],
+    tags: Annotated[str | None, typer.Option("--tags", "-t", help="Comma-separated tags")] = None,
     dry_run: Annotated[bool, dry_run_option()] = False,
 ):
     """Upload a photo to Unsplash with metadata."""

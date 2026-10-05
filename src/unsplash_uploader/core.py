@@ -69,9 +69,7 @@ def upload_to_unsplash(
         return False
 
     if dry_run:
-        console.print(
-            f"[yellow][dry-run] Would upload {file_path.name} to Unsplash.[/yellow]"
-        )
+        console.print(f"[yellow][dry-run] Would upload {file_path.name} to Unsplash.[/yellow]")
         console.print(f"[dim]Description: {description}[/dim]")
         if tags:
             console.print(f"[dim]Tags: {tags}[/dim]")
