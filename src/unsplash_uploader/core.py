@@ -99,6 +99,7 @@ def upload_to_unsplash(
         return False
     except Exception as e:  # noqa: BLE001 - any network/API failure during upload should report and continue, not crash
         console.print(f"[red]Failed to upload {file_path.name}: {e}[/red]")
-        if hasattr(e, "response") and e.response is not None:
-            console.print(f"[dim]{e.response.text}[/dim]")
+        response = getattr(e, "response", None)  # requests' HTTPError carries one
+        if response is not None:
+            console.print(f"[dim]{response.text}[/dim]")
         return False
